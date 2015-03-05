@@ -18,6 +18,12 @@ This is NOT an official StudioPress plugin.
 
 = Full List of Widgets =
 
+Altitude Pro:
+
+- Front page widget
+- Pricing table widget
+- Testimonial widget
+
 Education Pro:
 
 - Home Middle icon widget
@@ -37,3 +43,6 @@ Parallax Pro:
 
 = 1.1 =
 * Initial public release on wordpress.org
+
+= 1.2 =
+* Add widgets for Altitude Pro
