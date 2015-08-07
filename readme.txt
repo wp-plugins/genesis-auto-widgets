@@ -1,12 +1,12 @@
 === Genesis Auto Widgets ===
 Contributors: carlomanf
-Tags: genesis
-Tested up to: 4.1
+Tags: genesis, widget
+Tested up to: 4.2
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Genesis Auto Widgets is the easiest way to get your new Genesis site to look like the theme demo.
+This library of automatically configured and styled widgets is the easiest way to get your new Genesis site to look like the theme demo.
 
 == Description ==
 
@@ -34,8 +34,6 @@ Parallax Pro:
 - Featured area widget
 - Pricing table widget
 
-[Official website](http://carlomanf.id.au/products/genesis-auto-widgets/)
-
 == Changelog ==
 
 = 1.0 =
@@ -46,3 +44,6 @@ Parallax Pro:
 
 = 1.2 =
 * Add widgets for Altitude Pro
+
+= 1.3.0 =
+* Auto activate widgets based on active theme

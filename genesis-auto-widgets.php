@@ -1,14 +1,13 @@
 <?php
 /**
  * Plugin Name: Genesis Auto Widgets
- * Description: Genesis Auto Widgets is the easiest way to get your new Genesis site to look like the theme demo. It provides you with widgets that are automatically configured and styled to match the demo of your Genesis theme. This is NOT an official StudioPress plugin.
+ * Description: This library of automatically configured and styled widgets is the easiest way to get your new Genesis site to look like the theme demo.
  * Author: Carlo Manf
- * Plugin URI: http://carlomanf.id.au/products/genesis-auto-widgets/
- * Author URI: http://carlomanf.id.au/products/genesis-auto-widgets/
- * Version: 1.2
+ * Author URI: http://carlomanf.id.au
+ * Version: 1.3.0
  */
 
-//* Altitude Pro: front page widget
+// Altitude Pro: front page widget
 class AP_Front_Page extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
@@ -78,7 +77,7 @@ class AP_Front_Page extends WP_Widget {
 	}
 }
 
-//* Altitude Pro: pricing table widget
+// Altitude Pro: pricing table widget
 class AP_Pricing_Table extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
@@ -134,7 +133,7 @@ class AP_Pricing_Table extends WP_Widget {
 	}
 }
 
-//* Altitude Pro: testimonial widget
+// Altitude Pro: testimonial widget
 class AP_Testimonial extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
@@ -172,7 +171,7 @@ class AP_Testimonial extends WP_Widget {
 	}
 }
 
-//* Education Pro: Home Middle icon widget
+// Education Pro: Home Middle icon widget
 class EP_Home_Middle_Icon extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
@@ -215,7 +214,7 @@ class EP_Home_Middle_Icon extends WP_Widget {
 	}
 }
 
-//* Education Pro: Footer 1 info widget
+// Education Pro: Footer 1 info widget
 class EP_Footer_1_Info extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
@@ -271,7 +270,7 @@ class EP_Footer_1_Info extends WP_Widget {
 	}
 }
 
-//* Parallax Pro: featured area widget
+// Parallax Pro: featured area widget
 class PP_Featured_Area extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
@@ -310,7 +309,7 @@ class PP_Featured_Area extends WP_Widget {
 	}
 }
 
-//* Parallax Pro: pricing table widget
+// Parallax Pro: pricing table widget
 class PP_Pricing_Table extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
@@ -401,199 +400,53 @@ class PP_Pricing_Table extends WP_Widget {
 	}
 }
 
-//* Render a simple text field
+// Render a simple text field
 function genesis_auto_widgets_simple_text_field( $label, $id, $obj, $instance ) {
 	printf( '<p><label for="%2$s">%1$s</label><br><input class="widefat" type="text" id="%2$s" name="%3$s" value="%4$s"></p>', $label, $obj->get_field_id( $id ), $obj->get_field_name( $id ), isset( $instance[ $id ] ) ? esc_attr( $instance[ $id ] ) : '' );
 }
 
-//* Load the callback function
-if ( !function_exists( 'cm_settings_field_callback' ) )
-	require_once( 'lib/cm-settings-callbacks.php' );
-
-//* Register settings page
-add_action( 'admin_menu', function() { //* genesis_auto_widgets_register_settings_page
-	add_submenu_page(
-		'genesis', //* parent slug
-		'Genesis Auto Widgets', //* title of page
-		'Auto Widgets', //* menu text
-		'manage_options', //* capability to view the page
-		'genesis_auto_widgets', //* ID
-		function() { //* callback genesis_auto_widgets_options_page_callback
-			echo '<div class="wrap">';
-			printf( '<h2>%s</h2>', 'Genesis Auto Widgets' );
-			echo '<form method="post" action="options.php">';
-			echo '<p>Genesis Auto Widgets is the easiest way to get your new Genesis site to look like the theme demo. It provides you with widgets that are automatically configured and styled to match the demo of your Genesis theme. This is NOT an official StudioPress plugin.</p>';
-			submit_button();
-			settings_fields( 'genesis_auto_widgets' );
-			do_settings_sections( 'genesis_auto_widgets' );
-			submit_button();
-			echo '</form></div>';
-		}
-	);
-} );
-
-//* Initialise settings section
-add_action( 'admin_init', function() { //* genesis_auto_widgets_initialise_settings_section
+// Register database of active widgets
+// Prevents data loss if user switches theme
+register_activation_hook( __FILE__, function() {
 	if ( false === get_option( 'genesis_auto_widgets' ) )
 		add_option( 'genesis_auto_widgets' );
-
-	add_settings_section(
-		'genesis_auto_widgets_ap', //* ID
-		'Altitude Pro', //* title to be displayed
-		function() { //* callback
-			echo '<p>Below are the widgets that can be used with the Altitude Pro theme.</p>';
-		},
-		'genesis_auto_widgets' //* settings page to add to
-	);
-
-	add_settings_field(
-		'ap_front_page', //* ID
-		'Front Page', //* label
-		'cm_settings_field_callback', //* callback
-		'genesis_auto_widgets', //* settings page to add to
-		'genesis_auto_widgets_ap', //* section to add to
-		array(
-			'setting' => 'genesis_auto_widgets',
-			'field' => 'ap_front_page',
-			'type' => 'checkbox',
-			'label' => 'Activate the Front Page auto widget?',
-			'description' => 'Use this auto widget to display featured content areas on your Altitude Pro front page.'
-		)
-	);
-
-	add_settings_field(
-		'ap_pricing_table', //* ID
-		'Front Page', //* label
-		'cm_settings_field_callback', //* callback
-		'genesis_auto_widgets', //* settings page to add to
-		'genesis_auto_widgets_ap', //* section to add to
-		array(
-			'setting' => 'genesis_auto_widgets',
-			'field' => 'ap_pricing_table',
-			'type' => 'checkbox',
-			'label' => 'Activate the Pricing Table auto widget?',
-			'description' => 'Use this auto widget to display a pricing table on your Altitude Pro front page.'
-		)
-	);
-
-	add_settings_field(
-		'ap_testimonial', //* ID
-		'Testimonial', //* label
-		'cm_settings_field_callback', //* callback
-		'genesis_auto_widgets', //* settings page to add to
-		'genesis_auto_widgets_ap', //* section to add to
-		array(
-			'setting' => 'genesis_auto_widgets',
-			'field' => 'ap_testimonial',
-			'type' => 'checkbox',
-			'label' => 'Activate the Testimonial auto widget?',
-			'description' => 'Use this auto widget to display a testimonial on your Altitude Pro front page.'
-		)
-	);
-
-	add_settings_section(
-		'genesis_auto_widgets_ep', //* ID
-		'Education Pro', //* title to be displayed
-		function() { //* callback
-			echo '<p>Below are the widgets that can be used with the Education Pro theme.</p>';
-		},
-		'genesis_auto_widgets' //* settings page to add to
-	);
-
-	add_settings_field(
-		'ep_home_middle_icon', //* ID
-		'Home Middle Icon', //* label
-		'cm_settings_field_callback', //* callback
-		'genesis_auto_widgets', //* settings page to add to
-		'genesis_auto_widgets_ep', //* section to add to
-		array(
-			'setting' => 'genesis_auto_widgets',
-			'field' => 'ep_home_middle_icon',
-			'type' => 'checkbox',
-			'label' => 'Activate the Home Middle Icon auto widget?',
-			'description' => 'Use this auto widget to display an icon, a headline, a body paragraph and a button in the Education Pro Home Middle area.'
-		)
-	);
-
-	add_settings_field(
-		'ep_footer_1_info', //* ID
-		'Footer 1 Info', //* label
-		'cm_settings_field_callback', //* callback
-		'genesis_auto_widgets', //* settings page to add to
-		'genesis_auto_widgets_ep', //* section to add to
-		array(
-			'setting' => 'genesis_auto_widgets',
-			'field' => 'ep_footer_1_info',
-			'type' => 'checkbox',
-			'label' => 'Activate the Footer 1 Info auto widget?',
-			'description' => 'Use this auto widget to display your site and company info in the Education Pro Footer 1 area.'
-		)
-	);
-
-	add_settings_section(
-		'genesis_auto_widgets_pp', //* ID
-		'Parallax Pro', //* title to be displayed
-		function() { //* callback
-			echo '<p>Below are the widgets that can be used with the Parallax Pro theme.</p>';
-		},
-		'genesis_auto_widgets' //* settings page to add to
-	);
-
-	add_settings_field(
-		'pp_featured_area', //* ID
-		'Featured Area', //* label
-		'cm_settings_field_callback', //* callback
-		'genesis_auto_widgets', //* settings page to add to
-		'genesis_auto_widgets_pp', //* section to add to
-		array(
-			'setting' => 'genesis_auto_widgets',
-			'field' => 'pp_featured_area',
-			'type' => 'checkbox',
-			'label' => 'Activate the Featured Area auto widget?',
-			'description' => 'Use this auto widget to display a headline, a body paragraph and a button in a Parallax Pro featured area.'
-		)
-	);
-
-	add_settings_field(
-		'pp_pricing_table', //* ID
-		'Pricing Table', //* label
-		'cm_settings_field_callback', //* callback
-		'genesis_auto_widgets', //* settings page to add to
-		'genesis_auto_widgets_pp', //* section to add to
-		array(
-			'setting' => 'genesis_auto_widgets',
-			'field' => 'pp_pricing_table',
-			'type' => 'checkbox',
-			'label' => 'Activate the Pricing Table auto widget?',
-			'description' => 'Use this auto widget to display a pricing table in a Parallax Pro featured area.'
-		)
-	);
-
-	register_setting( 'genesis_auto_widgets', 'genesis_auto_widgets' );
 } );
 
-//* Register widgets
-add_action( 'widgets_init', function() { //* genesis_auto_widgets_register_widgets
+// Update database
+add_action( 'init', function() {
 	$options = get_option( 'genesis_auto_widgets' );
 
-	if ( isset( $options[ 'ap_front_page' ] ) )
+	foreach ( array( 'ap_front_page', 'ap_pricing_table', 'ap_testimonial', 'ep_home_middle_icon', 'ep_footer_1_info', 'pp_featured_area', 'pp_pricing_table' ) as $widget_id )
+		if ( is_active_widget( false, false, $widget_id, false ) )
+			$options[ $widget_id ] = '1';
+		else
+			unset( $options[ $widget_id ] );
+
+	update_option( 'genesis_auto_widgets', $options );
+} );
+
+// Register widgets
+add_action( 'widgets_init', function() {
+	$options = get_option( 'genesis_auto_widgets' );
+
+	if ( 'altitude-pro' === get_option( 'stylesheet' ) || isset( $options[ 'ap_front_page' ] ) )
 		register_widget( 'AP_Front_Page' );
 
-	if ( isset( $options[ 'ap_pricing_table' ] ) )
+	if ( 'altitude-pro' === get_option( 'stylesheet' ) || isset( $options[ 'ap_pricing_table' ] ) )
 		register_widget( 'AP_Pricing_Table' );
 
-	if ( isset( $options[ 'ap_testimonial' ] ) )
+	if ( 'altitude-pro' === get_option( 'stylesheet' ) || isset( $options[ 'ap_testimonial' ] ) )
 		register_widget( 'AP_Testimonial' );
 
-	if ( isset( $options[ 'ep_home_middle_icon' ] ) )
+	if ( 'education-pro' === get_option( 'stylesheet' ) || isset( $options[ 'ep_home_middle_icon' ] ) )
 		register_widget( 'EP_Home_Middle_Icon' );
 
-	if ( isset( $options[ 'ep_footer_1_info' ] ) )
+	if ( 'education-pro' === get_option( 'stylesheet' ) || isset( $options[ 'ep_footer_1_info' ] ) )
 		register_widget( 'EP_Footer_1_Info' );
 
-	if ( isset( $options[ 'pp_featured_area' ] ) )
+	if ( 'parallax-pro' === get_option( 'stylesheet' ) || isset( $options[ 'pp_featured_area' ] ) )
 		register_widget( 'PP_Featured_Area' );
 
-	if ( isset( $options[ 'pp_pricing_table' ] ) )
+	if ( 'parallax-pro' === get_option( 'stylesheet' ) || isset( $options[ 'pp_pricing_table' ] ) )
 		register_widget( 'PP_Pricing_Table' );
 } );
